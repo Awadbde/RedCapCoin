@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>RedCapCoin</title>
+  <style>
+    body { font-family: sans-serif; direction: rtl; padding: 20px; background: #f0f0f0; }
+    .box { background: white; padding: 20px; border-radius: 10px; max-width: 700px; margin: auto; }
+    input, button, textarea { padding: 10px; margin: 5px 0; width: 100%; }
+    .result { margin-top: 20px; background: #f9f9f9; padding: 10px; border-radius: 6px; }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2>🌿  RedCapCoin</h2>
+
+    <form method="POST">
+      <button name="action" value="create">🔐 إنشاء محفظة جديدة</button>
+    </form>
+
+    <form method="POST">
+      <input type="text" name="mnemonic" placeholder="أدخل العبارة السرية هنا">
+      <button name="action" value="import">📥 استيراد محفظة</button>
+    </form>
+
+    <form method="POST">
+      <input type="text" name="private_key" placeholder="🔑 المفتاح الخاص">
+      <input type="text" name="to_address" placeholder="📤 إرسال إلى (عنوان)">
+      <input type="text" name="amount" placeholder="💰 كمية ETH">
+      <button name="action" value="send">🚀 إرسال</button>
+    </form>
+
+    <form method="POST">
+      <input type="text" name="balance_address" placeholder="📊 عنوان للتحقق من رصيده">
+      <button name="action" value="balance">🔍 تحقق من الرصيد</button>
+    </form>
+
+    <form method="POST">
+      <input type="text" name="contract_address" placeholder="🏗️ عنوان العقد">
+      <textarea name="contract_abi" placeholder="📜 ABI (JSON)"></textarea>
+      <input type="text" name="function_name" placeholder="🔍 اسم الدالة بدون ()">
+      <input type="text" name="function_args" placeholder="📥 باراميترز الدالة (مثلاً: [\"0xabc...\", 5])">
+      <button name="action" value="read_contract">📖 قراءة من العقد</button>
+    </form>
+
+    {% if result %}
+      <div class="result">
+        {% if result.error %}
+          <p style="color: red;">{{ result.error }}</p>
+        {% elif result.tx_hash %}
+          <p><strong>🚀 تم إرسال المعاملة!</strong></p>
+          <p><strong>Tx Hash:</strong> {{ result.tx_hash }}</p>
+        {% elif result.balance_eth %}
+          <p><strong>📊 رصيد {{ result.balance_address }}:</strong> {{ result.balance_eth }} ETH</p>
+        {% elif result.contract_output %}
+          <p><strong>📖 ناتج العقد:</strong> {{ result.contract_output }}</p>
+        {% else %}
+          <p><strong>العنوان:</strong> {{ result.address }}</p>
+          <p><strong>العبارة:</strong> {{ result.mnemonic }}</p>
+          <p><strong>المفتاح الخاص:</strong> {{ result.private_key }}</p>
+        {% endif %}
+      </div>
+    {% endif %}
+  </div>
+</body>
+</html>
