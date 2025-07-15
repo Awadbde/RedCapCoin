@@ -4,7 +4,7 @@ from web3 import Web3
 import json
 
 app = Flask(__name__)
-w3 = Web3(Web3.HTTPProvider("https://mainnet.infura.io/v3/YOUR_INFURA_KEY"))  # ← ضع مفتاح Infura الخاص بك
+w3 = Web3(Web3.HTTPProvider("https://redcapcoin.pythonanywhere.com/"))  # ← ضع مفتاح Infura الخاص بك
 
 @app.route("/", methods=["GET", "POST"])
 def index():
